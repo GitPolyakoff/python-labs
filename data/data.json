@@ -1,0 +1,26 @@
+[
+    {
+        "full_name": "Петров Петр",
+        "age": 22,
+        "sport_type": "Плавание",
+        "result": 45.2
+    },
+    {
+        "full_name": "Смирнов Дмитрий",
+        "age": 24,
+        "sport_type": "Бокс",
+        "result": 15.0
+    },
+    {
+        "full_name": "Иванов Иван",
+        "age": 20,
+        "sport_type": "Бег",
+        "result": 10.1
+    },
+    {
+        "full_name": "Сидоров Алексей",
+        "age": 19,
+        "sport_type": "Бег",
+        "result": 9.8
+    }
+]
