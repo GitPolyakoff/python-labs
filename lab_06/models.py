@@ -20,7 +20,8 @@ class InsufficientFundsError(BankError):
 class Client:
     client_id: int
     name: str
-    
+
+    # метод для соответствия protocol
     def get_report_data(self) -> str:
         return f"Клиент: {self.name} (ID: {self.client_id})"
 
@@ -37,6 +38,7 @@ class Account:
     balance: float = 0.0
     status: AccountStatus = AccountStatus.ACTIVE
     operations: List[Operation] = field(default_factory=list)
-    
+
+    # метод для соответствия protocol    
     def get_report_data(self) -> str:
         return f"Счёт {self.account_id}, Баланс: {self.balance} руб., Статус: {self.status.value}"

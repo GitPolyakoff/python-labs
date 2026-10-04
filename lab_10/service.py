@@ -8,12 +8,14 @@ class AccountService:
 
     def get_accounts(self, status: str = None, currency: str = None, sort_by: str = None, order: str = "asc") -> list[dict]:
         accounts = self.repo.get_all()
-        
+
+        #фильтрация по query-параметры
         if status:
             accounts = [a for a in accounts if a.status == status]
         if currency:
             accounts = [a for a in accounts if a.currency == currency]
-            
+
+        #сортировка    
         if sort_by == "balance":
             accounts.sort(key=lambda x: x.balance, reverse=(order == "desc"))
         elif sort_by == "client_name":
@@ -51,6 +53,7 @@ class AccountService:
     def delete_account(self, acc_id: int) -> None:
         self.repo.delete(acc_id)
 
+    #доп операция по методичке
     def calculate_total_funds(self) -> dict:
         accounts = self.repo.get_all()
         total = sum(a.balance for a in accounts if a.status == "active")

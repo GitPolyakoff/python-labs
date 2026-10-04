@@ -17,6 +17,7 @@ class DeliveryService:
         return self.repo.get_all()
 
     def update_delivery(self, d_id: int, address: str, courier: str, status: str) -> Delivery:
+        #существует ли доставка
         self.repo.get(d_id)
         updated = Delivery(d_id, address, courier, status)
         self.repo.update(updated)
@@ -25,6 +26,7 @@ class DeliveryService:
     def delete_delivery(self, d_id: int) -> None:
         self.repo.delete(d_id)
 
+    #доп команда, которая требуется по методичке
     def get_deliveries_by_status(self, status: str) -> list[Delivery]:
         all_deliveries = self.repo.get_all()
         return [d for d in all_deliveries if d.status.lower() == status.lower()]

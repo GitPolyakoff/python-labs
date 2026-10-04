@@ -40,3 +40,5 @@ class TestBankBusinessLogic(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+#запуск теста python -m unittest tests.test_bank

@@ -6,4 +6,5 @@ class AccountFactory:
         valid_types = ["текущий", "накопительный", "депозит"]
         if acc_type not in valid_types:
             raise ValueError(f"Неизвестный тип счета: {acc_type}")
+        #готовый объект нужного типа
         return Account(account_id=account_id, acc_type=acc_type)

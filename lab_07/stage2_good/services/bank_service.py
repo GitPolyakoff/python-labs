@@ -26,6 +26,7 @@ class StatementService:
         acc = self.reader.get(account_id)
         return f"Выписка по счёту {acc.account_id} | Текущий баланс: {acc.balance} руб."
 
+#принцип открытости закрытости
 class DepositOperation:
     def __init__(self, amount: float):
         self.amount = amount

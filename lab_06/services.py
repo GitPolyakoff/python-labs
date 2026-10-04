@@ -18,6 +18,7 @@ class BankService:
                 return acc
         return None
 
+#доп операция на пополнение счёта
     @log_call
     def deposit(self, account_id: int, amount: float):
         acc = self.find_account(account_id)
@@ -31,6 +32,7 @@ class BankService:
         acc.operations.append(op)
         self.op_counter += 1
 
+#доп операция на списание средств
     @log_call
     def withdraw(self, account_id: int, amount: float):
         acc = self.find_account(account_id)
@@ -46,12 +48,14 @@ class BankService:
         acc.operations.append(op)
         self.op_counter += 1
 
+#доп операция на расчёт оборота
     def calculate_turnover(self, account_id: int) -> float:
         acc = self.find_account(account_id)
         if not acc:
             raise AccountNotFoundError("Счёт не найден.")
         return sum(op.amount for op in acc.operations)
 
+#стата
     @measure_time
     def get_statistics(self) -> dict:
         total_accs = len(self.accounts)
@@ -63,9 +67,11 @@ class BankService:
             "Сумма денег в банке": total_money
         }
 
+#функция для демонстрации protocol
 def print_report(item: Reportable):
     print(f"Печать через Protocol: {item.get_report_data()}")
 
+#интроспекция
 def inspect_object(obj):
     print("\n=== ИНФОРМАЦИЯ ОБ ОБЪЕКТЕ ===")
     print(f"1. Тип объекта (type): {type(obj)}")

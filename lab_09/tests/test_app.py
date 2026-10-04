@@ -10,6 +10,7 @@ class TestApp(unittest.TestCase):
         self.repo = DeliveryRepository()
         self.service = DeliveryService(self.repo)
 
+    #тесты repository
     def test_repository_add_and_get(self):
         d = Delivery(1, "ул. Мира 10", "Иван", "создана")
         self.repo.add(d)
@@ -20,6 +21,7 @@ class TestApp(unittest.TestCase):
         with self.assertRaises(DeliveryNotFoundError):
             self.repo.delete(999)
 
+    #тесты service
     def test_service_create_delivery(self):
         d = self.service.create_delivery(2, "ул. Ленина 5", "Анна", "в пути")
         self.assertEqual(len(self.service.get_all_deliveries()), 1)
@@ -33,6 +35,7 @@ class TestApp(unittest.TestCase):
         in_transit = self.service.get_deliveries_by_status("в пути")
         self.assertEqual(len(in_transit), 2)
 
+    #тест протокола
     def test_protocol_encode_decode(self):
         command = "get"
         data = {"id": 5}

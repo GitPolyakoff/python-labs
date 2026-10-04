@@ -3,11 +3,13 @@ from app import app, repo
 
 @pytest.fixture
 def client():
+    #очиищаем бд перед каждым тестом и даем тестовый клиент Flask
     repo._db.clear()
     repo._next_id = 1
     with app.test_client() as client:
         yield client
 
+#тесты api
 def test_get_all_empty(client):
     res = client.get("/accounts")
     assert res.status_code == 200
@@ -26,10 +28,12 @@ def test_get_account_404(client):
     assert res.json["code"] == "NOT_FOUND"
 
 def test_delete_account(client):
+    #создаем акк и удаляем его
     client.post("/accounts", json={"client_name": "А", "currency": "R", "balance": 0, "status": "active"})
     res = client.delete("/accounts/1")
-    assert res.status_code == 204
-    
+    assert res.status_code == 204 #успех удаления
+
+    #проверка что больше нет его
     res2 = client.get("/accounts/1")
     assert res2.status_code == 404
 
@@ -39,12 +43,14 @@ def test_patch_account(client):
     assert res.status_code == 200
     assert res.json["balance"] == 500
 
+#тесты на валидацию на ошибку 400
 def test_create_invalid_balance(client):
     data = {"client_name": "Иван", "currency": "RUB", "balance": -500, "status": "active"}
     res = client.post("/accounts", json=data)
     assert res.status_code == 400
     assert res.json["code"] == "BAD_REQUEST"
 
+#тесты фильтров
 def test_filter_by_status(client):
     client.post("/accounts", json={"client_name": "A", "currency": "R", "balance": 0, "status": "active"})
     client.post("/accounts", json={"client_name": "B", "currency": "R", "balance": 0, "status": "blocked"})
@@ -61,3 +67,5 @@ def test_special_operation_total_funds(client):
     res = client.get("/accounts/total-funds")
     assert res.status_code == 200
     assert res.json["total_active_funds"] == 1500
+
+#запуск python -m pytest tests/test_api.py

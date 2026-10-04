@@ -1,6 +1,7 @@
 import time
 from functools import wraps
 
+#декоратоор 1: журналирование вызовов функций
 def log_call(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -9,6 +10,7 @@ def log_call(func):
         return result
     return wrapper
 
+#2: измерение времени выполнения
 def measure_time(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -19,6 +21,7 @@ def measure_time(func):
         return result
     return wrapper
 
+#3: декоратор с параметрами
 def repeat(count: int):
     def decorator(func):
         @wraps(func)

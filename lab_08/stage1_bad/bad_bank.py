@@ -15,6 +15,7 @@ class BadBankSystem:
             raise ValueError("Неизвестный тип счета")
 
     def execute_operation(self, command_type: str, acc_id: int, amount: float = 0, target_id: int = None):
+        #наивная реализация команд через elif (открытость закрытость)
         acc = self.accounts.get(acc_id)
         if not acc:
             raise ValueError("Счет не найден")
@@ -32,6 +33,7 @@ class BadBankSystem:
             raise ValueError("Неизвестная операция")
 
     def calculate_fee(self, acc_id: int, amount: float, calc_type: str) -> float:
+        #наивный выбор алгоритма расчета через elif (открытость закрытость)
         if calc_type == "комиссия":
             return amount * 0.05
         elif calc_type == "проценты":

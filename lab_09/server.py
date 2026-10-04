@@ -13,6 +13,7 @@ class Server:
         self.host = host
         self.port = port
         self.service = service
+        #tcp сокет
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.executor = ThreadPoolExecutor(max_workers=10)
 
@@ -25,6 +26,7 @@ class Server:
             while True:
                 conn, addr = self.server_socket.accept()
                 logging.info(f"Client connected: {addr[0]}:{addr[1]}")
+                #передача клиента в отдельный поток
                 self.executor.submit(self.handle_client, conn, addr)
         except KeyboardInterrupt:
             logging.info("Остановка сервера...")
@@ -33,13 +35,13 @@ class Server:
             self.executor.shutdown()
 
     def handle_client(self, conn: socket.socket, addr: tuple):
-        conn.settimeout(60)
+        conn.settimeout(60) #60 сек таймаут ожидания клиента
         buffer = ""
         try:
             while True:
                 data = conn.recv(1024)
                 if not data:
-                    break
+                    break #отключился клиент
                 
                 buffer += data.decode('utf-8')
                 while '\n' in buffer:

@@ -3,6 +3,7 @@ from services import BankService, print_report, inspect_object
 from context import transaction_context
 from decorators import repeat
 
+#2 раза выведется при пуске
 @repeat(2)
 def welcome_message():
     print("Добро пожаловать в систему управления банком!")
@@ -93,6 +94,7 @@ def main():
             elif choice == "10":
                 if bank.accounts:
                     acc_id = bank.accounts[0].account_id
+                    #используем контекстный менеджер
                     with transaction_context(acc_id):
                         bank.deposit(acc_id, 100)
                 else:

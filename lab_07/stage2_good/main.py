@@ -3,8 +3,9 @@ from services.bank_service import BankCommandService, StatementService
 from ui.console import ConsoleUI
 
 def main():
+    #создаём зависимости
     repository = MemoryAccountRepository()
-    
+    #внедрение зависимостей в сервисы
     command_service = BankCommandService(writer=repository, reader=repository)
     statement_service = StatementService(reader=repository)
     

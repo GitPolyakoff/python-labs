@@ -6,7 +6,7 @@ class DeliveryClient:
         self.host = host
         self.port = port
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client_socket.settimeout(10)
+        self.client_socket.settimeout(10) #таймаут ожидания ответа сервера
 
     def connect(self):
         try:
@@ -20,7 +20,8 @@ class DeliveryClient:
         try:
             req_bytes = JSONProtocol.encode_request(command, data)
             self.client_socket.sendall(req_bytes)
-            
+
+            #читаем ответ до \n
             buffer = ""
             while True:
                 chunk = self.client_socket.recv(1024).decode('utf-8')
