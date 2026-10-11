@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="alert alert-danger shadow-sm text-center">
+            <h4>Удалить группу "{{ category.name }}"?</h4>
+            <p>Статьи, привязанные к этой группе, не удалятся, но останутся "Без группы".</p>
+            <form method="POST" class="mt-4">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger px-4">Да, удалить</button>
+                <a href="{% url 'category_create' %}" class="btn btn-secondary ms-2 px-4">Отмена</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <form method="GET" class="row g-2 align-items-center">
+            <div class="col-md-3">
+                <input type="text" name="title" class="form-control" placeholder="Поиск по названию..." value="{{ query_title }}">
+            </div>
+            <div class="col-md-2">
+                <input type="text" name="author" class="form-control" placeholder="Имя автора" value="{{ query_author }}">
+            </div>
+            <div class="col-md-2">
+                <input type="date" name="date" class="form-control" title="Дата публикации" value="{{ query_date }}">
+            </div>
+            <div class="col-md-3">
+                <select name="category" class="form-select">
+                    <option value="">Все группы</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.pk }}" {% if query_category == cat.pk|stringformat:"s" %}selected{% endif %}>
+                            {{ cat.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-2 d-flex gap-1">
+                <button type="submit" class="btn btn-primary flex-grow-1">Искать</button>
+                <a href="{% url 'article_list' %}" class="btn btn-outline-danger" title="Сбросить фильтры">✖</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    {% for article in articles %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <h4 class="card-title text-primary">{{ article.title }}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">Группа: {{ article.category.name|default:"Без группы" }}</h6>
+                <p class="card-text text-break">{{ article.content|truncatechars:120 }}</p>
+                <a href="{% url 'article_detail' article.pk %}" class="btn btn-sm btn-outline-primary">Читать далее &raquo;</a>
+            </div>
+            <div class="card-footer bg-white text-muted small">
+                Автор: {{ article.author.username }} | Дата: {{ article.date_published }}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12"><p class="text-center text-muted fs-5">Статей по вашему запросу не найдено.</p></div>
+    {% endfor %}
+</div>
+{% endblock %}
